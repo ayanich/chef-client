@@ -19,7 +19,9 @@ dist_dir, conf_dir, env_file = value_for_platform_family(
 
 timer = node['chef_client']['systemd']['timer']
 
-exec_options = if timer
+exec_options = if node['lsb']['codename'] == 'jessie'
+                 '-c $CONFIG -s $SPLAY $OPTIONS'
+               elsif timer
                  '-c $CONFIG $OPTIONS'
                else
                  '-c $CONFIG -i $INTERVAL -s $SPLAY $OPTIONS'
